@@ -15235,15 +15235,77 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/slider.js");
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+/* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
  // узнать почему мы это так импортировали
 
 
 
+
 window.addEventListener("DOMContentLoaded", () => {
+  "use strict";
+
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_content', '.glazing_slider', '.glazing_block', 'active');
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.decoration_content >div >div', '.decoration_slider', '.no_click', 'after_click');
+  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_3__["default"])();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/forms.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/forms.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function forms() {
+  const form = document.querySelectorAll(form),
+        input = document.querySelectorAll(input);
+  const message = {
+    loading: 'Загрузка...',
+    success: 'Спасибо, скоро мы с вами свяжемся',
+    failure: 'Что-то пошло не так'
+  };
+
+  function clearInputs() {
+    input.forEach(item => {
+      item.value = '';
+    });
+  }
+
+  async function postData(url, data) {
+    document.querySelector('.status').textContent = message.loading;
+    let res = await fetch(url, {
+      method: "POST",
+      body: data
+    }).then(res => {
+      console.log(res);
+      statusMessage.textContent = message.success;
+    }).catch(() => statusMessage.textContent = message.failure).finally(() => {
+      clearInputs();
+      setTimeout(() => {
+        statusMessage.remove();
+      }, 3000);
+    });
+    return await res.text();
+  }
+
+  form.forEach(item => {
+    item.addEventListener('submit', e => {
+      e.preventDefault();
+      const statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      statusMessage.textContent = message.loading;
+      const formData = new FormData(item);
+      postData('assets/server.php', formData);
+    });
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (forms);
 
 /***/ }),
 

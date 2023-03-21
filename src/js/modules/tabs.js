@@ -1,13 +1,13 @@
-function tabs(tabsContentSelector, parentSelector, tabsSelector, classActive) {
+function tabs(tabsContentSelector, parentSelector, tabsSelector, classActive, display = 'block') {
 	
 	const tabsContent = document.querySelectorAll(tabsContentSelector),  // то, что будет меняться на странице
-			tabsParent = document.querySelector(parentSelector),  // родитель всех табов
-			tabs = document.querySelectorAll(tabsSelector);// кнопки для переключения 
+		tabsParent = document.querySelector(parentSelector),  // родитель всех табов
+		tabs = document.querySelectorAll(tabsSelector); // кнопки для переключения 
+		
 
 	function hideTabContent() {
 		tabsContent.forEach(item => {
-			item.classList.add('hide')
-			item.classList.remove('show')
+			item.style.display = 'none'
 		});
 
 		tabs.forEach(item => {
@@ -19,8 +19,7 @@ function tabs(tabsContentSelector, parentSelector, tabsSelector, classActive) {
 		
 		
 	function showTabContent(i = 0) {
-		tabsContent[i].classList.add('show');
-		tabsContent[i].classList.remove('hide');
+		tabsContent[i].style.display = display; 
 		tabs[i].classList.add(classActive);
 	}
 
