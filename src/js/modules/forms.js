@@ -75,8 +75,8 @@ function forms(state) {
 					setTimeout(() => {
 						statusMessage.remove();
 						windows.forEach(item => {
-							item.style.display = 'none'
-							document.body.style.overflow = ''
+							item.style.display = 'none';
+							document.body.style.overflow = '';
 						});
 					}, 3000);
 					
