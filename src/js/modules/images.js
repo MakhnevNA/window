@@ -1,8 +1,11 @@
+import calcScroll from "./calcScroll";
+
 function images() {
 	
 	const imgPopup = document.createElement('div'),
 		workSection = document.querySelector('.works'),
-		bigImage = document.createElement('img');
+		bigImage = document.createElement('img'),
+		scroll = calcScroll();
 	
 	
 	imgPopup.classList.add('popup');
@@ -22,6 +25,7 @@ function images() {
 
 		if (target && target.classList.contains('preview')) {
 			imgPopup.style.display = 'flex';
+			document.body.style.marginRight = `${scroll}px`; 
 			document.body.style.overflow = 'hidden'
 			imgPopup.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
 			const path = target.parentNode.getAttribute('href');
@@ -31,6 +35,7 @@ function images() {
 		if (target && target.matches('div.popup')) {
 			imgPopup.style.display = 'none';
 			document.body.style.overflow = ''
+			document.body.style.marginRight = `0px`; 
 		}
 
 	});

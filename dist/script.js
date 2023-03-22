@@ -15239,7 +15239,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_changeModalState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/changeModalState */ "./src/js/modules/changeModalState.js");
 /* harmony import */ var _modules_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/timer */ "./src/js/modules/timer.js");
 /* harmony import */ var _modules_images__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/images */ "./src/js/modules/images.js");
- // узнать почему мы это так импортировали
 
 
 
@@ -15261,6 +15260,31 @@ window.addEventListener("DOMContentLoaded", () => {
   Object(_modules_timer__WEBPACK_IMPORTED_MODULE_5__["default"])(deadline);
   Object(_modules_images__WEBPACK_IMPORTED_MODULE_6__["default"])();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/calcScroll.js":
+/*!**************************************!*\
+  !*** ./src/js/modules/calcScroll.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function calcScroll() {
+  let div = document.createElement('div');
+  div.style.width = "50px";
+  div.style.height = "50px";
+  div.style.overflowY = 'scroll';
+  div.style.visibility = 'hidden';
+  document.body.appendChild(div);
+  let scrollWidth = div.offsetWidth - div.clientWidth;
+  div.remove();
+  return scrollWidth;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (calcScroll);
 
 /***/ }),
 
@@ -15443,10 +15467,14 @@ function forms(state) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _calcScroll__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calcScroll */ "./src/js/modules/calcScroll.js");
+
+
 function images() {
   const imgPopup = document.createElement('div'),
         workSection = document.querySelector('.works'),
-        bigImage = document.createElement('img');
+        bigImage = document.createElement('img'),
+        scroll = Object(_calcScroll__WEBPACK_IMPORTED_MODULE_0__["default"])();
   imgPopup.classList.add('popup');
   workSection.appendChild(imgPopup);
   imgPopup.style.justifyContent = 'center';
@@ -15459,6 +15487,7 @@ function images() {
 
     if (target && target.classList.contains('preview')) {
       imgPopup.style.display = 'flex';
+      document.body.style.marginRight = `${scroll}px`;
       document.body.style.overflow = 'hidden';
       imgPopup.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
       const path = target.parentNode.getAttribute('href');
@@ -15468,6 +15497,7 @@ function images() {
     if (target && target.matches('div.popup')) {
       imgPopup.style.display = 'none';
       document.body.style.overflow = '';
+      document.body.style.marginRight = `0px`;
     }
   });
 }
@@ -15485,6 +15515,9 @@ function images() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _calcScroll__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calcScroll */ "./src/js/modules/calcScroll.js");
+
+
 function modals() {
   function bindModal(triggerSelector, modalSelector, closeSelector, closeCLickOverlay = true) {
     const trigger = document.querySelectorAll(triggerSelector),
@@ -15493,8 +15526,9 @@ function modals() {
           // само модальное окно/ его подложка
     close = document.querySelector(closeSelector),
           // крестик для закрытия
-    windows = document.querySelectorAll('[data-modal]'); // полученные модалки, но через атрибут
-
+    windows = document.querySelectorAll('[data-modal]'),
+          // полученные модалки, но через атрибут
+    scroll = Object(_calcScroll__WEBPACK_IMPORTED_MODULE_0__["default"])();
     trigger.forEach(item => {
       item.addEventListener('click', e => {
         if (e.target) {
@@ -15506,6 +15540,7 @@ function modals() {
         });
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
+        document.body.style.marginRight = `${scroll}px`;
       });
     });
     modal.addEventListener('click', e => {
@@ -15515,6 +15550,7 @@ function modals() {
         });
         modal.style.display = 'none';
         document.body.style.overflow = '';
+        document.body.style.marginRight = `0px`;
       }
     });
     close.addEventListener('click', e => {
@@ -15523,6 +15559,7 @@ function modals() {
       });
       modal.style.display = 'none';
       document.body.style.overflow = '';
+      document.body.style.marginRight = `0px`;
     });
   }
 
@@ -15531,7 +15568,18 @@ function modals() {
       document.querySelector(selector).style.display = 'block';
       document.body.style.overflow = 'hidden';
     }, time);
-  }
+  } // function calcScroll() {
+  // 	let div = document.createElement('div');
+  // 	div.style.width = "50px";
+  // 	div.style.height = "50px";
+  // 	div.style.overflowY = 'scroll';
+  // 	div.style.visibility = 'hidden';
+  // 	document.body.appendChild(div);
+  // 	let scrollWidth = div.offsetWidth - div.clientWidth
+  // 	div.remove();
+  // 	return scrollWidth;
+  // }
+
 
   bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
   bindModal('.phone_link', '.popup', '.popup .popup_close');

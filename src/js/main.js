@@ -1,4 +1,4 @@
-import './slider';    // узнать почему мы это так импортировали
+import './slider';
 import modals from './modules/modals';
 import tabs from './modules/tabs';
 import forms from './modules/forms';
