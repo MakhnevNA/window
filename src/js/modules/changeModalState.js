@@ -8,16 +8,20 @@ function changeModalState(state) {
 		windowHeight = document.querySelectorAll('#height'),
 		windowType = document.querySelectorAll('#view_type'),
 		windowProfile = document.querySelectorAll('.checkbox');
+		
 	
 	checkNumInputs('#width');
 	checkNumInputs('#height');
+
+
+
 
 
 	function bindActionToElems(event, elem, prop) {
 		
 		elem.forEach((item, i) => {
 			item.addEventListener(event, () => {
-
+				
 				switch (item.nodeName) {
 					case "SPAN":
 						state[prop] = i;
@@ -25,13 +29,20 @@ function changeModalState(state) {
 					case "INPUT":
 						if (item.getAttribute('type') === 'checkbox') {
 							i === 0 ? state[prop] = 'Холодное' : state[prop] = 'Теплое';
+							
 							elem.forEach((box, j) => {
 								box.checked = false;
+								cold.style.border = '';
+								warm.style.border = '';
 								if (i === j) {
 									box.checked = true;
+									
 								}
 							});
 						} else {
+							if (elem[0].value.length >0) {
+								elem[0].style.border = '';
+							}
 							state[prop] = item.value
 						}
 						break;
@@ -39,7 +50,9 @@ function changeModalState(state) {
 						state[prop] = item.value
 						break;
 				}
+				console.log(state)
 			}); 
+			
 		});
 	}
 

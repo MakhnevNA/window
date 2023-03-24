@@ -12,7 +12,13 @@ import images from './modules/images';
 window.addEventListener("DOMContentLoaded", () => {
 	"use strict";
 
-	let modalState = {};
+	let modalState = {
+		'form': 0,
+		'width': '',
+		'height': '',
+		'type': 'tree',
+		'profile': ''
+	};
 	let deadline = '2023-04-26'
 	changeModalState(modalState);
 	modals();
